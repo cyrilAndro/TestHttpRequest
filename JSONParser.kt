@@ -11,44 +11,59 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
-@Suppress ("DEPRECATION")
-class JSONParser(private var c: Context, private var jsonData: String, private var myGridView: GridView) : AsyncTask<Void, Void, Boolean>() {
+@Suppress("DEPRECATION")
+class JSONParser(private var c: Context, private var jsonData: String, private var myGridView: GridView) :
+    AsyncTask<Void, Void, Boolean>() {
 
 
-    private lateinit var pd : ProgressDialog
+    private lateinit var pd: ProgressDialog
     private var topStoriesSciences = ArrayList<TopStoriesScience>()
 
-    class TopStoriesScience (private var m_status : String,
-                             private var m_copyright : String, private var m_section : String, private var m_last_updated : String, private var m_num_results : Int, private var m_results : ArrayList<String>) {
 
-        fun getStatus() : String? {
-            return m_status
+    class TopStoriesScience(
+        private var m_title: String,
+        private var m_section: String,
+        private var m_subsection: String,
+        private var m_updated_date: String,
+        private var m_url: String,
+        private var m_byline: String,
+        private var m_url_multimedia: String
+    ) {
+
+        fun getTitle(): String? {
+            return m_title
         }
 
-        fun getCopyright() : String? {
-            return m_copyright
-        }
-
-        fun getSection() : String? {
+        fun getSection(): String? {
             return m_section
         }
 
-        fun getLastUpdated() : String? {
-            return m_last_updated
+        fun getSubsection(): String? {
+            return m_subsection
         }
-        fun getNumResults() : Int? {
-            return m_num_results
+
+        fun getUpdated_date(): String? {
+            return m_updated_date
         }
-        fun getResults() : ArrayList<String>? {
-            return m_results
+
+        fun getUrl(): String? {
+            return m_url
+        }
+
+        fun getByline(): String? {
+            return m_byline
+        }
+
+        fun getUrlMultimedia(): String {
+            return m_url_multimedia
         }
     }
 
-    class MrAdapter (private var c: Context, private var topStoriesSciences: ArrayList<TopStoriesScience>) : BaseAdapter() {
+    class MrAdapter(private var c: Context, private var topStoriesSciences: ArrayList<TopStoriesScience>) :
+        BaseAdapter() {
 
 
-
-        override fun getCount() : Int {
+        override fun getCount(): Int {
             return topStoriesSciences.size
         }
 
@@ -57,34 +72,39 @@ class JSONParser(private var c: Context, private var jsonData: String, private v
         }
 
         override fun getItemId(pos: Int): Long {
-           return pos.toLong()
+            return pos.toLong()
         }
+
         //Inflate row_moadel and return it
         override fun getView(i: Int, view: View?, viewGroup: ViewGroup?): View {
             var convertView = view
-            if(convertView == null) {
+            if (convertView == null) {
                 convertView = LayoutInflater.from(c).inflate(R.layout.row_model, viewGroup, false)
             }
 
-            val statusTxt = convertView!!.findViewById<TextView>(R.id.titleTxt) as TextView
-            val copyrightTxt = convertView.findViewById<TextView>(R.id.sectionTxt) as TextView
-            val sectionTxt = convertView.findViewById<TextView>(R.id.subsectionTxt) as TextView
-            val lastUpdatedTxt = convertView.findViewById<TextView>(R.id.urlArticleTxt) as TextView
-            val numResultsTxt = convertView.findViewById<TextView>(R.id.dateTxt) as TextView
-            val resultsTxt = convertView.findViewById<TextView>(R.id.resultsTxt) as TextView
+            val titleTxt = convertView!!.findViewById<TextView>(R.id.titleTxt) as TextView
+            val sectionTxt = convertView.findViewById<TextView>(R.id.sectionTxt) as TextView
+            val subsectionTxt = convertView.findViewById<TextView>(R.id.subsectionTxt) as TextView
+            val updatedDateTxt = convertView.findViewById<TextView>(R.id.updatedDateTxt) as TextView
+            val urlTxt = convertView.findViewById<TextView>(R.id.urlTxt) as TextView
+            val bylineTxt = convertView.findViewById<TextView>(R.id.bylineTxt) as TextView
+            val urlMultimediaTxt = convertView.findViewById<TextView>(R.id.urlMultimediaTxt) as TextView
 
 
             val topStoriesSciences = this.getItem(i) as TopStoriesScience
 
-            statusTxt.text = topStoriesSciences.getStatus()
-            copyrightTxt.text = topStoriesSciences.getCopyright()
+            titleTxt.text = topStoriesSciences.getTitle()
             sectionTxt.text = topStoriesSciences.getSection()
-            lastUpdatedTxt.text = topStoriesSciences.getLastUpdated()
-            numResultsTxt.text = topStoriesSciences.getNumResults().toString()
-            resultsTxt.text = topStoriesSciences.getResults().toString()
+            subsectionTxt.text = topStoriesSciences.getSubsection()
+            updatedDateTxt.text = topStoriesSciences.getUpdated_date()
+            urlTxt.text = topStoriesSciences.getUrl()
+            bylineTxt.text = topStoriesSciences.getByline()
+            urlMultimediaTxt.text = topStoriesSciences.getUrlMultimedia()
 
 
-            convertView.setOnClickListener {Toast.makeText(c, topStoriesSciences.getStatus(), Toast.LENGTH_SHORT).show() }
+            convertView.setOnClickListener {
+                Toast.makeText(c, topStoriesSciences.getTitle(), Toast.LENGTH_SHORT).show()
+            }
 
             return convertView
         }
@@ -98,39 +118,55 @@ class JSONParser(private var c: Context, private var jsonData: String, private v
 
         try {
 
-                var jo: JSONObject
-                val ja = JSONArray(jsonData)
 
-                topStoriesSciences.clear()
-                var topStoriesScience: TopStoriesScience
+            var jo: JSONObject
 
 
-
-                for (i in 0 until ja.length()) {
-                    jo = ja.getJSONObject(i)
-
-                    val status = jo.getString("status")
-                    val copyright = jo.getString("copyright")
-                    val section = jo.getString("section")
-                    val last_updated = jo.getString("last_updated")
-                    val num_results = jo.getInt("num_results")
-                    val results :  ArrayList<String> = jo.getJSONArray("results") as ArrayList<String>
+            topStoriesSciences.clear()
+            var topStoriesScience: TopStoriesScience
 
 
-                    topStoriesScience = TopStoriesScience(status, copyright, section, last_updated, num_results, results)
-                    topStoriesSciences.add(topStoriesScience)
+            jo = JSONObject(jsonData)
+            val ja = jo.getJSONArray("results")
 
-                }
 
-                return true
 
-            } catch (e: JSONException) {
-                e.printStackTrace()
-                return false
+            for (i in 0 until ja.length()) {
+                jo = ja.getJSONObject(i)
 
+
+                val title = jo.getString("title")
+                val section = jo.getString("section")
+                val subsection = jo.getString("subsection")
+                val updated_date = jo.getString("updated_date")
+                val url = jo.getString("url")
+                val byline = jo.getString("byline")
+
+
+                val jam = jo.getJSONArray("multimedia")
+
+                for (i in 0 until jam.length()) {
+
+                        var jom = jam.getJSONObject(i)
+                        val url_multimedia = jom.getString("url")
+
+
+                        topStoriesScience =
+                            TopStoriesScience(title, section, subsection, updated_date, url, byline, url_multimedia)
+                        topStoriesSciences.add(topStoriesScience)
+
+                    }
             }
-        }
 
+
+            return true
+
+        } catch (e: JSONException) {
+            e.printStackTrace()
+            return false
+
+        }
+    }
 
 
     override fun onPreExecute() {
@@ -143,20 +179,24 @@ class JSONParser(private var c: Context, private var jsonData: String, private v
     }
 
     override fun doInBackground(vararg voids: Void): Boolean? {
-       return parse()
+        return parse()
     }
 
     override fun onPostExecute(isParsed: Boolean?) {
         super.onPostExecute(isParsed)
 
         pd.dismiss()
-        if(isParsed!!){
+        if (isParsed!!) {
             //BIND
-            myGridView.adapter = MrAdapter(c, topStoriesSciences  )
+            myGridView.adapter = MrAdapter(c, topStoriesSciences)
         } else {
-            Toast.makeText(c, "Unable to Parse that Data. Are you sure it is a valid Jsondata? Json Exception was raised ", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                c,
+                "Unable to Parse that Data. Are you sure it is a valid Jsondata? Json Exception was raised ",
+                Toast.LENGTH_LONG
+            ).show()
             Toast.makeText(c, "This the data we are trying to Parse: " + jsonData, Toast.LENGTH_LONG).show()
 
         }
-     }
+    }
 }

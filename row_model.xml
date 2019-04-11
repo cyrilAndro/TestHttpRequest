@@ -15,17 +15,17 @@
         <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="wrap_content"
-                android:layout_height="150dp"
-                android:padding="10dp"
+                android:layout_height="10dp"
+                android:padding="2dp"
                 android:src="@drawable/ic_launcher_background"/>
 
         <TextView
                 android:id="@+id/titleTxt"
-                android:text="Name"
+                android:text="title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:padding="5dp"
+                android:padding="1dp"
                 android:textColor="@color/colorPrimary"
                 android:layout_below="@+id/imageView"
                 android:layout_alignParentLeft="true"
@@ -37,30 +37,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:padding="5dp"
+        android:padding="1dp"
         android:textColor="@color/colorPrimary"
         android:layout_below="@+id/titleTxt"
         android:layout_alignParentLeft="true"
 />
     <TextView
             android:id="@+id/subsectionTxt"
-            android:text="subsection"
+            android:text="Subsection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:padding="2dp"
+            android:padding="1dp"
             android:textColor="@color/colorPrimary"
             android:textStyle="italic"
             android:layout_below="@+id/sectionTxt"
             android:layout_alignParentLeft="true"
     />
         <TextView
-                android:id="@+id/urlArticleTxt"
-                android:text="url article "
+                android:id="@+id/updatedDateTxt"
+                android:text="updated Date "
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:padding="5dp"
+                android:padding="1dp"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="italic"
                 android:layout_below="@+id/subsectionTxt"
@@ -68,29 +68,42 @@
         />
 
         <TextView
-                android:id="@+id/dateTxt"
-                android:text="date "
+                android:id="@+id/urlTxt"
+                android:text="url "
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:padding="5dp"
+                android:padding="1dp"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="italic"
-                android:layout_below="@+id/urlArticleTxt"
+                android:layout_below="@+id/updatedDateTxt"
                 android:layout_alignParentLeft="true"
         />
         <TextView
-                android:id="@+id/resultsTxt"
-                android:text="results"
+                android:id="@+id/bylineTxt"
+                android:text="byline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:padding="5dp"
+                android:padding="1dp"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="italic"
-                android:layout_below="@+id/dateTxt"
+                android:layout_below="@+id/urlTxt"
                 android:layout_alignParentLeft="true"
         />
+        <TextView
+                android:id="@+id/urlMultimediaTxt"
+                android:text="url Multimedia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:padding="1dp"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="italic"
+                android:layout_below="@+id/bylineTxt"
+                android:layout_alignParentLeft="true"
+        />
+
 
 
 
