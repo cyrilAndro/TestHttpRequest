@@ -144,18 +144,21 @@ class JSONParser(private var c: Context, private var jsonData: String, private v
 
 
                 val jam = jo.getJSONArray("multimedia")
+                var jom = jam.getJSONObject(jam[0])
+                var url_multimedia = jom.getString('url')
+                topStoriesScience = TopStoriesScience(title, section,subsection, updated_date, url, byline, url_multimedia)
+                topStoriesScience.add(topStoriesScience)
+//                 for (i in 0 until jam.length()) {
 
-                for (i in 0 until jam.length()) {
-
-                        var jom = jam.getJSONObject(i)
-                        val url_multimedia = jom.getString("url")
+//                         var jom = jam.getJSONObject(i)
+//                         val url_multimedia = jom.getString("url")
 
 
-                        topStoriesScience =
-                            TopStoriesScience(title, section, subsection, updated_date, url, byline, url_multimedia)
-                        topStoriesSciences.add(topStoriesScience)
+//                         topStoriesScience =
+//                             TopStoriesScience(title, section, subsection, updated_date, url, byline, url_multimedia)
+//                         topStoriesSciences.add(topStoriesScience)
 
-                    }
+//                     }
             }
 
 
